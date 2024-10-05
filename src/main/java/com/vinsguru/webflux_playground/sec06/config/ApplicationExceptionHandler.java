@@ -29,7 +29,7 @@ public class ApplicationExceptionHandler {
         });
     }
 
-    private Mono<ServerResponse>  handleException(HttpStatus status, InvalidInputException ex, ServerRequest request, Consumer<ProblemDetail> consumer) {
+    private Mono<ServerResponse>  handleException(HttpStatus status, Exception ex, ServerRequest request, Consumer<ProblemDetail> consumer) {
         var problem = ProblemDetail.forStatusAndDetail(status, ex.getMessage());
         problem.setInstance(URI.create(request.path()));
         consumer.accept(problem);
