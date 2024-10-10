@@ -14,7 +14,8 @@ import java.util.UUID;
 public class Lec09ExchangeFilterTest extends AbstractWebClient {
 
     private static final Logger log = LoggerFactory.getLogger(Lec09ExchangeFilterTest.class);
-    private final WebClient client = createWebClient(b -> b.filter(tokenGenerator()));
+    private final WebClient client = createWebClient(b -> b.filter(tokenGenerator())
+            .filter(requestLogger()));
 
     @Test
     public void exchangeFilter() {
@@ -40,6 +41,13 @@ public class Lec09ExchangeFilterTest extends AbstractWebClient {
                     .headers(h -> h.setBearerAuth(token))
                     .build();
             return next.exchange(modifiedRequest);
+        };
+    }
+
+    private ExchangeFilterFunction requestLogger() {
+        return (clientRequest, next) -> {
+            log.info("Request url - {}: {}", clientRequest.method(), clientRequest.url());
+            return next.exchange(clientRequest);
         };
     }
 }
