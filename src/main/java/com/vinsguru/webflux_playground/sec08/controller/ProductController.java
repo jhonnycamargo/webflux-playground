@@ -28,8 +28,13 @@ public class ProductController {
      @PostMapping(value = "upload", consumes = MediaType.APPLICATION_NDJSON_VALUE)
         public Mono<UploadResponse> uploadProducts(@RequestBody Flux<ProductDto> productDtoFlux){
          log.info("Invoked");
-            return productService.saveProducts(productDtoFlux.doOnNext(p -> log.info("Received: {}", p)))
+            return productService.saveProducts(productDtoFlux)
                     .then(this.productService.getProductsCount())
                     .map(count -> new UploadResponse(UUID.randomUUID(), count));
+        }
+
+        @PostMapping(value = "download", produces = MediaType.APPLICATION_NDJSON_VALUE)
+        public Flux<ProductDto> downloadProducts(){
+            return this.productService.allProducts();
         }
 }
