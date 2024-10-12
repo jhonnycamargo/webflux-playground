@@ -3,12 +3,14 @@ package com.vinsguru.webflux_playground.sec09.service;
 import com.vinsguru.webflux_playground.sec09.dto.ProductDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.time.Duration;
 import java.util.concurrent.ThreadLocalRandom;
 
+@Service
 public class DataSetupService implements CommandLineRunner {
 
     @Autowired
